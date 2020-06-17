@@ -23,10 +23,7 @@ const {
 } = require('./util');
 
 const checkUserRole = (user, allowableRoles) => {
-  const lowercasedRoles = allowableRoles.map(role =>
-    role.toLowerCase()
-  );
-  if (!user || !lowercasedRoles.includes(user.role)) {
+  if (!user || !allowableRoles.includes(user.role)) {
     throw new AuthenticationError('Not authorized');
   }
   return true;
@@ -388,6 +385,7 @@ class AuthDirective extends SchemaDirectiveVisitor {
     this.ensureFieldsWrapped(type);
     type._requiredAuthRole = this.args.requires;
   }
+
   visitFieldDefinition(field, details) {
     this.ensureFieldsWrapped(details.objectType);
     field._requiredAuthRole = this.args.requires;
@@ -415,15 +413,16 @@ class AuthDirective extends SchemaDirectiveVisitor {
         const context = args[2];
         const { user } = context;
 
-        if (
-          allowableRoles &&
-          allowableRoles.length &&
-          !user
-        ) {
+        if (!user) {
           throw new AuthenticationError('Not authorized');
         }
 
-        if (!checkUserRole(user, allowableRoles)) {
+        if (
+          !checkUserRole(
+            user,
+            allowableRoles.map(role => role.toLowerCase())
+          )
+        ) {
           throw new AuthenticationError('Not authorized');
         }
 
