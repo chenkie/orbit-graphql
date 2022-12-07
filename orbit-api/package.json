@@ -12,10 +12,10 @@
   "dependencies": {
     "apollo-server": "^2.14.4",
     "bcryptjs": "^2.4.3",
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.20.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
+    "express": "^4.18.2",
     "express-jwt": "^5.3.3",
     "graphql": "^15.1.0",
     "graphql-tools": "^6.0.10",
